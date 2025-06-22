@@ -12,14 +12,12 @@ const InputBox = () => {
       role: "user",
       content: input,
     });
-    console.log(input)
+    console.log(input);
   };
 
   const navigate = useNavigate();
   const handlerNavigate = () => {
-    
-      navigate("/editor");
-    
+    navigate("/editor");
   };
 
   return (

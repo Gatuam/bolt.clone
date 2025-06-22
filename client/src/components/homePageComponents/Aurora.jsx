@@ -29,7 +29,7 @@ const Aurora = () => {
         backgroundImage,
       }}
     >
-        <Nav />
+      <Nav />
       <div
         className="absolute top-50 border px-5 py-1 border-[#326bfb4d] bg-[#2f5ce413] rounded-4xl w-70 h-8 flex justify-center items-center  
         shadow-[inset_0px_1px_4px_0px_rgba(255,255,255,0.1),inset_0px_-1px_4px_0px_rgba(255,255,255,0.1)]"

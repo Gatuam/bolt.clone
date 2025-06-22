@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
-const HomePage = ( {children} ) => {
-  return (
-    <>
-        {children}
-    </>
-  )
-}
+const HomePage = ({ children }) => {
+  return <>{children}</>;
+};
 
-export default HomePage
+export default HomePage;
