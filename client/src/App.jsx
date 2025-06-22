@@ -1,16 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
+import Aurora from "./components/homePageComponents/Aurora";
+import Nav from "./components/homePageComponents/Nav";
+import HomePage from "./pages/HomePage";
+import EditorPage from "./pages/EditorPage";
+import { MessagesProvider } from "./context/Messages.context";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className='w-full h-screen flex justify-center items-center bg-gradient-to-b from-[#000000] to-[#151515] text-white '>
-      hello
-    </div>
-  )
+    <MessagesProvider>
+      <div className=" w-full h-screen  justify-center items-center">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <HomePage>
+                <Aurora> 
+                </Aurora>
+              </HomePage>
+            }
+          />
+          <Route path="/editor" element={<EditorPage/>} />
+        </Routes>
+      </div>
+    </MessagesProvider>
+   
+  );
 }
 
-export default App
+export default App;

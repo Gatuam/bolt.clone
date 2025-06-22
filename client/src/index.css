@@ -1,7 +1,17 @@
 @import "tailwindcss";
 
+
 body{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Host Grotesk" ;
+}
+
+/* In your globals.css or similar */
+textarea:not(:placeholder-shown) + div + button {
+  background-color: #1aecff17;
+  border-color: #1ad5ff;
+  box-shadow: 0 0 10px #1ad5ff18;
+  transition: all 0.3s ease;
 }
