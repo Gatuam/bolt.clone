@@ -1,7 +1,7 @@
 import React from "react";
 
 const HomePage = ({ children }) => {
-  return <>{children}</>;
+  return <div className="relative">{children}</div>;
 };
 
 export default HomePage;

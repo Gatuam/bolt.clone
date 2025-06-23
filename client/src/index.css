@@ -15,3 +15,4 @@ textarea:not(:placeholder-shown) + div + button {
   box-shadow: 0 0 10px #1ad5ff18;
   transition: all 0.3s ease;
 }
+

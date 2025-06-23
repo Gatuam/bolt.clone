@@ -3,35 +3,44 @@ import { useState } from "react";
 import { appIdeas } from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
 import { MessagesContext } from "../../context/Messages.context";
+import { useLocation } from "react-router-dom";
+
 
 const InputBox = () => {
-  const [input, setInput] = useState("");
+  const location = useLocation();
   const { message, setMessage } = useContext(MessagesContext);
+  const [input, setInput] = useState("");
   const onType = (input) => {
-    setMessage({
-      role: "user",
-      content: input,
-    });
+    setInput(input);
+    setMessage((prev) => [...prev, 
+      { role: "user", message: input }]);
+    handlerNavigate();
     console.log(input);
   };
-
+ 
   const navigate = useNavigate();
-  const handlerNavigate = () => {
+
+  const handlerSubmit= () => {
+   
     navigate("/editor");
+    
   };
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="flex flex-col w-100 h-35 rounded-lg text-neutral-500 bg-[#11111128] text-sm border border-[#24a4f956] outline-0 p-3 font-medium justify-between relative">
+    <div className="flex flex-col justify-center items-center ">
+      <div className="flex flex-col w-[100%] h-40 rounded-lg text-neutral-500 bg-[#11111128] text-sm border border-[#24a4f956] outline-0 p-3 font-medium justify-between relative">
         <textarea
           onChange={(e) => {
             setInput(e.target.value);
           }}
-          className="w-full pl-4 pt-2 pr-16 focus:outline-none resize-none text-bolt-elements-textPrimary placeholder-bolt-elements-textTertiary bg-transparent text-sm"
+          className="w-full pl-4 pt-2 pr-16 focus:outline-none resize-none text-bolt-elements-textPrimary  placeholder-bolt-elements-textTertiary bg-transparent text-sm"
           placeholder="Hello how ek.ai can help you today?"
-          name=""
+          name="prompt"
           id=""
         ></textarea>
+        <div className="absolute top-0 left-0 h-[1.5px] w-[30%] bg-[rgba(40,116,248,0.66)] blur-[5px] "></div>
+        <div className="absolute top-0 left-3 h-[1px] w-[30%] bg-[rgba(40,54,248,0.84)] blur-[3px] "></div>
+        
         <div className="absolute bottom-3 left-5 flex gap-2 pb-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +62,9 @@ const InputBox = () => {
             <button
               disabled={!input.trim()}
               onClick={() => {
-                handlerNavigate(), onType(input);
+                handlerSubmit();
+                onType(input);
+               
               }}
               className="flex absolute bottom-3 right-5 border bg-[#1174ff06] border-[#1ad5ff2b] px-3 py-1 rounded-2xl hover:bg-[#1aecff17] cursor-pointer"
             >
@@ -75,13 +86,13 @@ const InputBox = () => {
           )}
         </>
       </div>
-      <div className="flex w-150 flex-wrap ` justify-center items-center mt-4">
+      {location.pathname === "/" &&  <div className="flex w-150 flex-wrap ` justify-center items-center mt-4">
         {appIdeas.map((item, id) => {
           return (
             <div
               key={id}
               onClick={() => {
-                handlerNavigate("/editor"), onType(item.idea);
+                handlerSubmit("/editor"), onType(item.idea);
               }}
               className="border border-[#22a7ff4e] px-4 py-[1px] rounded-4xl ml-2 mt-2 bg-[#2aa3ff18] 
             shadow-[inset_0px_1px_4px_0px_rgba(255,255,255,0.1),inset_0px_-1px_4px_0px_rgba(255,255,255,0.1)]
@@ -93,7 +104,7 @@ const InputBox = () => {
             </div>
           );
         })}
-      </div>
+      </div>}
     </div>
   );
 };
