@@ -16,6 +16,7 @@
     "axios": "^1.10.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dom-parser": "^1.1.5",
     "lucide-react": "^0.522.0",
     "motion": "^12.18.1",
     "react": "^19.1.0",

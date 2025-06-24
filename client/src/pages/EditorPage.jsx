@@ -11,17 +11,13 @@ const EditorPage = () => {
         backgroundRepeat: "repeat",
       }}
       className="w-full h-screen text-white text-4xl justify-center items-center bg-[#090909] grid grid-cols-3 py-1 px-1"
-    > 
-     <div className=" col-span-1">
-      <ChatView>
-
-      </ChatView>
-     </div>
-     <div className="col-span-2">
-      <Codepreview />
-     </div>
-      
-      
+    >
+      <div className=" col-span-1">
+        <ChatView></ChatView>
+      </div>
+      <div className="col-span-2">
+        <Codepreview />
+      </div>
     </div>
   );
 };

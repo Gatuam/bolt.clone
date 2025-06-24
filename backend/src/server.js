@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-
+const cors = require('cors')
 const { getSystemPrompt, BASE_PROMPT_NODE, BASE_PROMPT_REACT } = require("./system-file/prompt");
 const Anthropic = require("@anthropic-ai/sdk");
 const { reactTemplate } = require("./templates/react.template");
@@ -9,6 +9,7 @@ const {nodejsTemplate} = require("./templates/node.template")
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 const anthropic = new Anthropic();
 
 app.post("/template", async (req, res) => {

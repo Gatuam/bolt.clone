@@ -10,8 +10,12 @@ const ChatView = () => {
         {message.map((msg, i) => {
           return (
             <div
-              key={i} className="justify-between items-center bg-[#31313181] py-3 rounded-md border border-[#277af614] w-[100%] h-15 flex flex-wrap px-5 ">
-              <h1 className="text-neutral-300 overflow-hidden wrap-break-word text-[13px] leading-5 tracking-wide">{msg.message}</h1>
+              key={i}
+              className="justify-between items-center bg-[#31313181] py-3 rounded-md border border-[#277af614] w-[100%] h-15 flex flex-wrap px-5 "
+            >
+              <h1 className="text-neutral-300 overflow-hidden wrap-break-word text-[13px] leading-5 tracking-wide">
+                {msg.message}
+              </h1>
               <div className="flex justify-center items-center gap-2 mr-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -36,11 +40,9 @@ const ChatView = () => {
         })}
       </>
       <div className=" flex flex-col flex-grow p-2 rounded-lg w-[100%] h-30 gap-5 ">
-        <div className="w-[100%] flex-grow bg-[#1111118c]  border border-[#1dd9ff22] rounded-lg">
-        </div>
-        <InputBox />
+        <div className="w-[100%] flex-grow bg-[#1111118c]  border border-[#1dd9ff22] rounded-lg"></div>
+        <InputBox size="large" />
       </div>
-      
     </div>
   );
 };
