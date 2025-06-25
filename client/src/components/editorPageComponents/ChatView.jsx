@@ -3,7 +3,7 @@ import { MessagesContext } from "../../context/Messages.context";
 import InputBox from "../homePageComponents/InputBox";
 
 const ChatView = () => {
-  const { message, setMessage } = useContext(MessagesContext);
+  const { message } = useContext(MessagesContext);
   return (
     <div className="bg-[#06181a23] h-[99vh] border border-[#1dd9ff22] p-3 rounded-lg flex flex-col justify-between items-center gap-5">
       <>

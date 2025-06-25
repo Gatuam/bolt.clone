@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { motion } from "motion/react";
 import { DialogOpenContext } from "../../context/DialogContext";
 const SinginDailog = () => {
   const { open, setOpen } = useContext(DialogOpenContext);
@@ -11,8 +10,8 @@ const SinginDailog = () => {
   return (
     <>
       {open && (
-        <div className="w-full h-screen absolute bg-transparent backdrop-blur-3xl z-1">
-          <div className=" fixed top-60 left-180 z-10 ">
+        <div className="w-full h-screen absolute inset-0  bg-transparent backdrop-blur-3xl z-1">
+          <div className=" absolute inset-0 flex items-center justify-center z-10">
             <div className="w-90 h-100  bg-[#050610] border border-[#1ed2ff2b] rounded-2xl  flex flex-col justify-center items-center relative">
               <div className="text-center">
                 <h1 className="text-white text-xl">Sign up to get start</h1>

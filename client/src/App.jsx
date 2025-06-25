@@ -21,8 +21,8 @@ function App() {
                   path="/"
                   element={
                     <>
-                      <SinginDailog />
                       <HomePage>
+                        <SinginDailog />
                         <Aurora></Aurora>
                       </HomePage>
                     </>
