@@ -7,11 +7,11 @@ import { PromptContext } from "../../context/PromptContext";
 
 const InputBox = ({ size = "medium" }) => {
   const location = useLocation();
-  const {  setMessage } = useContext(MessagesContext);
-  const { input, setInput} = useContext(PromptContext);
+  const { setMessage } = useContext(MessagesContext);
+  const { input, setInput } = useContext(PromptContext);
   const onType = (input) => {
     setInput(input);
-    setMessage((prev) => [...prev, { role: "user", message: input }]); 
+    setMessage((prev) => [...prev, { role: "user", message: input }]);
     handlerNavigate();
   };
 
@@ -22,13 +22,13 @@ const InputBox = ({ size = "medium" }) => {
   };
 
   const containerWidth = {
-    small: "w-[60%]",
+    small: "w-[25%]",
     medium: "w-[80%]",
     large: "w-[100%]",
   };
 
   return (
-    <div className="flex flex-col justify-center items-center ">
+    <div className="flex flex-col justify-center items-center w-full ">
       <div
         className={`flex flex-col ${containerWidth[size]} h-35 rounded-md text-neutral-500 bg-[#11111128] text-sm border border-[#24a4f956] outline-0 p-3 font-medium justify-between relative`}
       >
@@ -66,7 +66,7 @@ const InputBox = ({ size = "medium" }) => {
               disabled={!input.trim()}
               onClick={() => {
                 handlerNavigate();
-                onType(input); 
+                onType(input);
               }}
               className="flex absolute bottom-3 right-5 border bg-[#1174ff06] border-[#1ad5ff2b] px-3 py-1 rounded-2xl hover:bg-[#1aecff17] cursor-pointer"
             >

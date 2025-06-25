@@ -1,11 +1,13 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState } from "react";
+
 
 export const SandPackContext = createContext();
 
 export const SandPackProvider = ({ children }) => {
-   const [sandpackFiles, setSandpackFiles] = useState({});
+  const [rawFiles, setRawFiles] = useState([]); 
+
   return (
-    <SandPackContext.Provider value={{ sandpackFiles, setSandpackFiles }}>
+    <SandPackContext.Provider value={{ rawFiles, setRawFiles }}>
       {children}
     </SandPackContext.Provider>
   );

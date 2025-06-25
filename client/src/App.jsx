@@ -30,10 +30,10 @@ function App() {
                 />
                 <Route
                   path="/editor"
-                  element={
-                    <SandPackProvider>
+                  element={    
+                    <SandPackProvider>             
                       <EditorPage />
-                    </SandPackProvider>
+                      </SandPackProvider> 
                   }
                 />
               </Routes>

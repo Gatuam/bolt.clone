@@ -11,6 +11,7 @@ import { PromptContext } from "../../context/PromptContext";
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
 import { MessagesContext } from "../../context/Messages.context";
+import { SandPackContext } from "../../context/SandPackContext";
 
 const Codepreview = () => {
   const { message } = useContext(MessagesContext);
@@ -18,6 +19,7 @@ const Codepreview = () => {
   const [activeTab, setActiveTab] = useState("code");
   const [sandpackFiles, setSandpackFiles] = useState({});
   const [sandpackTemplate, setSandpackTemplate] = useState("react");
+  const { rawFiles, setRawFiles } = useContext(SandPackContext);
   const parser = new XMLParser({
     ignoreAttributes: false,
     attributeNamePrefix: "",
@@ -30,17 +32,29 @@ const Codepreview = () => {
           prompt: input,
         });
         const { uiPrompts } = response.data;
-        console.log(uiPrompts);
+
         const result = parser.parse(uiPrompts);
 
         const actions = result.boltArtifact.boltAction;
         const array = Array.isArray(actions) ? actions : [actions];
 
-        const files = array.map((a) => ({
-          type: a.type,
-          filePath: a.filePath,
-          content: a["#text"] || "",
-        }));
+        const files = array.map((a) => {
+          const filePath = a.filePath;
+          const content = a["#text"] || "";
+          const parts = filePath.split("/");
+          const fileName = parts[parts.length - 1];
+          const category = parts.length > 1 ? parts[1] : "root"; // e.g., "components"
+
+          return {
+            type: a.type,
+            filePath,
+            fileName,
+            category,
+            content,
+            isEmpty: content.trim().length === 0,
+          };
+        });
+
         const formatted = files.reduce((acc, file) => {
           acc[file.filePath] = {
             code: file.content || "",
@@ -51,7 +65,7 @@ const Codepreview = () => {
         const template = isNode ? "node" : "react";
         setSandpackTemplate(template);
         setSandpackFiles(formatted);
-
+        setRawFiles(files);
         console.log(files);
       } catch (error) {
         console.error("Error fetching template:", error);
