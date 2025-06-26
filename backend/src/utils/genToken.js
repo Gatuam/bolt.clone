@@ -12,6 +12,7 @@ const genToken = (res, userId) => {
     maxAge : 7 * 24 * 60 * 60 * 1000,
   });
   return token;
+  console.log(token)
 };
 
 module.exports = genToken;
