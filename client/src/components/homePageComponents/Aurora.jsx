@@ -46,7 +46,7 @@ const Aurora = () => {
           Create stunning apps & websites by chatting with AI.
         </p>
       </div>
-      <InputBox size="small" />
+      <InputBox size="medium" />
       <div className="absolute bottom-20 flex gap-5  ">
         {svgs.map((item) => (
           <div

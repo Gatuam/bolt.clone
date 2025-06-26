@@ -23,14 +23,14 @@ const InputBox = ({ size = "medium" }) => {
 
   const containerWidth = {
     small: "w-[25%]",
-    medium: "w-[80%]",
+    medium: "w-full",
     large: "w-[100%]",
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full ">
+    <div className="flex flex-col justify-center items-center w-110 ">
       <div
-        className={`flex flex-col ${containerWidth[size]} h-35 rounded-md text-neutral-500 bg-[#11111128] text-sm border border-[#24a4f956] outline-0 p-3 font-medium justify-between relative`}
+        className={`flex flex-col ${containerWidth[size]} h-33 rounded-md text-neutral-500 bg-[#11111128] text-sm border border-[#24a4f956] outline-0 p-3 font-medium justify-between relative`}
       >
         <textarea
           onChange={(e) => {
@@ -101,7 +101,7 @@ const InputBox = ({ size = "medium" }) => {
             shadow-[inset_0px_1px_4px_0px_rgba(255,255,255,0.1),inset_0px_-1px_4px_0px_rgba(255,255,255,0.1)]
             "
               >
-                <p className="text-sm text-neutral-400 hover:text-white cursor-pointer">
+                <p className="text-sm text-[#10dbffc0] hover:text-white cursor-pointer">
                   {item.idea}{" "}
                 </p>
               </div>
