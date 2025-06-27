@@ -2,6 +2,7 @@ const { PrismaClient } = require("../generated/prisma");
 const bcrypt = require("bcrypt");
 const genToken = require("../utils/genToken");
 const sendMail = require("../mail/mail.config");
+const { json } = require("express");
 
 const prisma = new PrismaClient();
 
@@ -110,11 +111,48 @@ const verfiyEmail = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  res.send("login");
+  const { email, password } = req.body;
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid credential",
+      });
+    }
+    const decodePassword = await bcrypt.compare(password, user.password);
+    if (!decodePassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid credential",
+      });
+    }
+    genToken(res, user.id);
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { lastLogin: new Date() },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Logged in successfully",
+    });
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: "Email or Password incorrect",
+    });
+  }
 };
 
 const logout = async (req, res) => {
-  res.send("logout");
+  res.clearCookie("token");
+  res.status(200).json({
+    success: true,
+    message: "Logged out successfully",
+  });
 };
 
 module.exports = {

@@ -6,8 +6,8 @@ const { signup, login, logout, verfiyEmail } = require('../middleware/auth.contr
 const route = express.Router();
 
 route.post('/signup', signup);
-route.get('/login', login);
-route.get('/logout', logout);
+route.post('/login', login);
+route.post('/logout', logout);
 route.post('/verifyemail', verfiyEmail)
 
 
