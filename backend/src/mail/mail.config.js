@@ -1,4 +1,4 @@
-require("dotenv").config({path : '../../.env'});
+require("dotenv").config({ path: '../../.env' });
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
@@ -11,13 +11,13 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-async function sendMail(to, sub, msg) {
+async function sendMail(to, subject, html) {
   try {
     let info = await transporter.sendMail({
       from: process.env.APP_USER,
       to: to,
-      subject: sub,
-      html: msg,
+      subject: subject, // fixed
+      html: html,
     });
     console.log('Email sent:', info.messageId);
   } catch (err) {
@@ -25,6 +25,5 @@ async function sendMail(to, sub, msg) {
   }
 }
 
-sendMail( process.env.APP_USER, sub, msg );
 
 module.exports = sendMail;
