@@ -175,6 +175,11 @@ const forgotPassword = async (req, res) => {
         message: "Wrong email!",
       });
     }
+    await prisma.resetPasswordToken.deleteMany({
+      where: {
+        userId: user.id,
+      },
+    });
 
     const resetToken = crypto.randomUUID();
     const expiresAt = new Date(Date.now() + 1 * 1000 * 60 * 60); //1hour
@@ -205,10 +210,54 @@ const forgotPassword = async (req, res) => {
   }
 };
 
+const resetPasswod = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+    const resetToken = await prisma.resetPasswordToken.findUnique({
+      where: { token },
+      include: { user: true },
+    });
+    console.log(resetToken.user);
+
+    if (!resetToken || resetToken.expiresAt < new Date()) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid or expired token",
+      });
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await prisma.user.update({
+      where: { id: resetToken.user.id },
+      data: { password: hashedPassword },
+    });
+    await prisma.resetPasswordToken.delete({
+      where: { token },
+    });
+
+    sendMail(
+      resetToken.user.email,
+      "Password Change",
+      "your password is succefully changed"
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset successful",
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   signup,
   login,
   logout,
   verfiyEmail,
   forgotPassword,
+  resetPasswod,
 };
