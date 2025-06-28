@@ -2,7 +2,6 @@ const { PrismaClient } = require("../generated/prisma");
 const bcrypt = require("bcrypt");
 const genToken = require("../utils/genToken");
 const sendMail = require("../mail/mail.config");
-const { json } = require("express");
 
 const prisma = new PrismaClient();
 
@@ -129,6 +128,13 @@ const login = async (req, res) => {
         message: "Invalid credential",
       });
     }
+    //  Check if user is not verified
+    if (!user.isVerified) {
+      return res.status(401).json({
+        success: false,
+        message: "Please verify your email before logging in",
+      });
+    }
     genToken(res, user.id);
     await prisma.user.update({
       where: { id: user.id },
@@ -155,9 +161,54 @@ const logout = async (req, res) => {
   });
 };
 
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    if (!user) {
+      res.status(400).json({
+        success: false,
+        message: "Wrong email!",
+      });
+    }
+
+    const resetToken = crypto.randomUUID();
+    const expiresAt = new Date(Date.now() + 1 * 1000 * 60 * 60); //1hour
+
+    await prisma.resetPasswordToken.create({
+      data: {
+        token: resetToken,
+        expiresAt: expiresAt,
+        userId: user.id,
+      },
+    });
+
+    await sendMail(
+      user.email,
+      `${process.env.CLIENT_URL}/reset-password/${resetToken}`,
+      "reset your password"
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Check your email to resetpassword",
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   signup,
   login,
   logout,
   verfiyEmail,
+  forgotPassword,
 };
