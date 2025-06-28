@@ -48,7 +48,7 @@ const signup = async (req, res) => {
       message: "User created successfully",
     });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       success: false,
       message: error.message,
     });
@@ -102,7 +102,7 @@ const verfiyEmail = async (req, res) => {
       message: "Email verified successfully",
     });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       success: false,
       message: "Invaid request!",
     });
@@ -203,7 +203,7 @@ const forgotPassword = async (req, res) => {
       message: "Check your email to resetpassword",
     });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       success: false,
       message: error.message,
     });
@@ -246,7 +246,7 @@ const resetPasswod = async (req, res) => {
       message: "Password reset successful",
     });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       success: false,
       message: error.message,
     });
