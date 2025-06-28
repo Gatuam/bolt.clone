@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { DialogOpenContext } from "../../context/DialogContext";
-const SinginDailog = () => {
+const LoginDailog = () => {
   const { open, setOpen } = useContext(DialogOpenContext);
 
   const dialogOpener = () => {
@@ -24,18 +24,13 @@ const SinginDailog = () => {
                   className="flex flex-col justify-center items-center"
                   action=""
                 > 
-                <input
-                    className="w-76 h-10 outline-0 border border-[#1ed2ff2b] rounded-md mt-5 text-neutral-300 px-3 text-sm"
-                    placeholder="John Smith"
-                    type="text"
-                  />
                   <input
                     className="w-76 h-10 outline-0 border border-[#1ed2ff2b] rounded-md mt-5 text-neutral-300 px-3 text-sm"
                     placeholder="john@gmail.com"
                     type="text"
                   />
                   <input
-                    className="w-76 h-10 outline-0 border border-[#1ed2ff2b] rounded-md mt-2 mb-5 mt-5 text-neutral-300 px-3 text-sm"
+                    className="w-76 h-10 outline-0 border border-[#1ed2ff2b] rounded-md mt-2 mb-5 text-neutral-300 px-3 text-sm"
                     placeholder="password"
                     type="password"
                   />

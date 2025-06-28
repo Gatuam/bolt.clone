@@ -21,7 +21,6 @@ const InputBox = ({ size = "medium" }) => {
   const handleSubmit = (value) => {
     setInput(value);
     setMessage((prev) => [...prev, { role: "user", message: value }]);
-    setInput("");
     handleNavigate();
   };
 
@@ -38,7 +37,7 @@ const InputBox = ({ size = "medium" }) => {
       >
         <textarea
           onChange={(e) => setInput(e.target.value)}
-          value={input}
+          
           className="w-full pl-4 pt-2 pr-16 focus:outline-none resize-none text-bolt-elements-textPrimary placeholder-bolt-elements-textTertiary bg-transparent text-sm"
           placeholder="Hello, how can ek.ai help you today?"
           name="prompt"
