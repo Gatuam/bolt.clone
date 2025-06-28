@@ -11,7 +11,7 @@ const ChatView = () => {
   return (
     <div className="bg-[#06181a23] h-screen border border-[#1dd9ff22] p-3 rounded-lg flex flex-col justify-between relative overflow-hidden">
       
-      {/* Chat messages area */}
+      { }
       <div className="overflow-y-auto px-2 flex-1 flex flex-col gap-4 pr-3 w-full [&::-webkit-scrollbar]:hidden">
         {message.map((msg, i) => (
           <div
@@ -39,7 +39,7 @@ const ChatView = () => {
           </div>
         ))}
 
-        {/* Only show rawFiles if there are messages */}
+        { }
         {message.length > 0 && rawFiles.length > 0 && (
           <div className="mt-4">
             {rawFiles.map((file, idx) => (
@@ -47,7 +47,7 @@ const ChatView = () => {
                 <div className="flex items-center gap-2 text-white text-sm mb-2">
                   <Check className="text-green-400" size={16} />
                   <span>Create</span>
-                  <code className="text-[#1dd9ff]">{file.category}</code>
+                  <code className="text-[#1dd9ff]">{file.fileName}</code>
                 </div>
                 <pre className="bg-[#00000044] text-white text-sm p-3 rounded-lg overflow-x-auto whitespace-pre-wrap break-words">
                   <code>{file.content}</code>
@@ -58,7 +58,7 @@ const ChatView = () => {
         )}
       </div>
 
-      {/* Fixed input at bottom */}
+      { }
       <div className="mt-3">
         <InputBox size="large" />
       </div>

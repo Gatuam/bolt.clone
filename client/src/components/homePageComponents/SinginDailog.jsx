@@ -23,7 +23,12 @@ const SinginDailog = () => {
                 <form
                   className="flex flex-col justify-center items-center"
                   action=""
-                >
+                > 
+                <input
+                    className="w-76 h-10 outline-0 border border-[#1ed2ff2b] rounded-md mt-5 text-neutral-300 px-3 text-sm"
+                    placeholder="John Smith"
+                    type="text"
+                  />
                   <input
                     className="w-76 h-10 outline-0 border border-[#1ed2ff2b] rounded-md mt-5 text-neutral-300 px-3 text-sm"
                     placeholder="john@gmail.com"
