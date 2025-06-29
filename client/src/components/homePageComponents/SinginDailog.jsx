@@ -6,12 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { Loader } from "lucide-react";
 
 const SigninDialog = () => {
-  const { open, dialogType, setOpen, openDialog } = useContext(DialogOpenContext);
+  const { open, dialogType, setOpen, openDialog } =
+    useContext(DialogOpenContext);
 
   const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
-  const {signup , error , isLoading } = useAuthStore();
+  const { signup, error, isLoading } = useAuthStore();
 
   const navigate = useNavigate();
 
@@ -21,8 +22,8 @@ const SigninDialog = () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     try {
-      await signup(username , email, password);
-      navigate('/verifaction')
+      await signup(username, email, password);
+      navigate("/verifaction");
     } catch (error) {
       console.log(error);
     }
@@ -49,8 +50,7 @@ const SigninDialog = () => {
             <Input type="email" placeholder="john@gmail.com" ref={emailRef} />
             <Input type="password" placeholder="********" ref={passwordRef} />
 
-            {(error && <p className=" text-red-500 text-sm mt-3 "> {error}
-              </p>)}
+            {error && <p className=" text-red-500 text-sm mt-3 "> {error}</p>}
 
             <div className="flex justify-between gap-7 mt-3">
               <p
@@ -67,7 +67,11 @@ const SigninDialog = () => {
               disabled={isLoading}
               className="mt-7 border border-[#1ed2ff2b] px-4 py-1 bg-[#1ed2ff12] text-white rounded-4xl cursor-pointer hover:bg-[#1eadff3b]"
             >
-              {isLoading ? <Loader className=" animate-spin mx-auto"/> : "Sign up"}
+              {isLoading ? (
+                <Loader className=" animate-spin mx-auto" />
+              ) : (
+                "Sign up"
+              )}
             </button>
           </form>
 

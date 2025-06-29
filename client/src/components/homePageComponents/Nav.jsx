@@ -14,7 +14,6 @@ const Nav = () => {
     >
       <h1 className="logo text-[#74f1ff96] text-3xl">bolt.clone</h1>
       <div className=" text-white flex justify-between items-center gap-10">
-        
         <div
           onClick={dailogOpen}
           className="bg-[#3bd5ff19] px-7 py-1 rounded-4xl border border-[#20cfff38] hover:bg-[#86fde9c3] hover:text-neutral-800 cursor-pointer 

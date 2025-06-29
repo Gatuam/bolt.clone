@@ -47,7 +47,7 @@ const Aurora = () => {
         </p>
         <InputBox size="medium" />
       </div>
-      
+
       <div className=" flex gap-5">
         {svgs.map((item) => (
           <div

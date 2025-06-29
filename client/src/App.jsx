@@ -24,11 +24,10 @@ const RedirectedUser = ({ children }) => {
 
 const ProectedRoute = ({ children }) => {
   const { isAuth } = useAuthStore();
-  
-    if (!isAuth) {
-      return  <Navigate to="/" replace />;
-     
-    }
+
+  if (!isAuth) {
+    return <Navigate to="/" replace />;
+  }
 
   if (!isAuth) return null;
   return children;

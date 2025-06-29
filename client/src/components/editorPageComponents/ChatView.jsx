@@ -10,13 +10,14 @@ const ChatView = () => {
 
   return (
     <div className="bg-[#06181a23] h-screen border border-[#1dd9ff22] p-3 rounded-lg flex flex-col justify-between relative overflow-hidden">
-      
-      { }
+      {}
       <div className="overflow-y-auto px-2 flex-1 flex flex-col gap-4 pr-3 w-full [&::-webkit-scrollbar]:hidden">
         {message.map((msg, i) => (
           <div
             key={i}
-            className={`self-${msg.role === "user" ? "end" : "start"} max-w-[100%] bg-[#31313181] text-neutral-300 p-3 rounded-md border border-[#277af614] text-sm`}
+            className={`self-${
+              msg.role === "user" ? "end" : "start"
+            } max-w-[100%] bg-[#31313181] text-neutral-300 p-3 rounded-md border border-[#277af614] text-sm`}
           >
             <p className="break-words leading-5">{msg.message}</p>
             <div className="flex items-center gap-2 mt-2 text-neutral-500 text-xs">
@@ -39,11 +40,14 @@ const ChatView = () => {
           </div>
         ))}
 
-        { }
+        {}
         {message.length > 0 && rawFiles.length > 0 && (
           <div className="mt-4">
             {rawFiles.map((file, idx) => (
-              <div key={idx} className="mb-6 bg-[#1111118c] border border-[#1dd9ff22] p-4 rounded-lg">
+              <div
+                key={idx}
+                className="mb-6 bg-[#1111118c] border border-[#1dd9ff22] p-4 rounded-lg"
+              >
                 <div className="flex items-center gap-2 text-white text-sm mb-2">
                   <Check className="text-green-400" size={16} />
                   <span>Create</span>
@@ -58,7 +62,7 @@ const ChatView = () => {
         )}
       </div>
 
-      { }
+      {}
       <div className="mt-3">
         <InputBox size="large" />
       </div>

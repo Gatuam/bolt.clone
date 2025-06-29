@@ -9,14 +9,13 @@ import { useAuthStore } from "../../store/authstore";
 const InputBox = ({ size = "medium" }) => {
   const navigate = useNavigate();
   const location = useLocation();
-    const {  user } = useAuthStore();
+  const { user } = useAuthStore();
   const { open, setOpen } = useContext(DialogOpenContext);
   const { setMessage } = useContext(MessagesContext);
   const { input, setInput } = useContext(PromptContext);
 
   const handleNavigate = () => {
-
-    if(!user){
+    if (!user) {
       setOpen(true);
       return;
     }

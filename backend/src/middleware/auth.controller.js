@@ -52,7 +52,7 @@ const signup = async (req, res) => {
   } catch (error) {
     return res.status(400).json({
       success: false,
-      message:  error.message || "user already exist"
+      message: error.message || "user already exist",
     });
   }
 };
@@ -102,7 +102,7 @@ const verfiyEmail = async (req, res) => {
     await res.status(200).json({
       success: true,
       message: "Email verified successfully",
-      user: safeUser
+      user: safeUser,
     });
   } catch (error) {
     return res.status(400).json({

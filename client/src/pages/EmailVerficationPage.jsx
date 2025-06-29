@@ -1,5 +1,5 @@
 import Input from "../components/homePageComponents/Input";
-import React, { useRef , useContext } from "react";
+import React, { useRef, useContext } from "react";
 import { DialogOpenContext } from "../context/DialogContext";
 import {
   animate,
@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const EmailVerficationPage = () => {
-  const {error, isLoading , verifyEmail} = useAuthStore();
+  const { error, isLoading, verifyEmail } = useAuthStore();
   const { openDialog } = useContext(DialogOpenContext);
   const navigate = useNavigate();
   const color = useMotionValue(colors[2]);
@@ -33,13 +33,12 @@ const EmailVerficationPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const code = varificationRef.current.value;
-    
+
     try {
       await verifyEmail(code);
-      toast.success("email verify succesfully")
-      navigate('/')
+      toast.success("email verify succesfully");
+      navigate("/");
       openDialog("login");
-      
     } catch (error) {
       console.log(error);
     }
@@ -76,12 +75,9 @@ const EmailVerficationPage = () => {
                   type="submit"
                   className="mt-7 border border-[#1ed2ff2b] px-4 py-1 bg-[#1ed2ff12] text-white rounded-4xl cursor-pointer hover:bg-[#1eadff3b]"
                 >
-                  
                   {isLoading ? "Verifying..." : "Verify Email"}
                 </button>
-                {error && <p className="text-red-600 text-sm mt-3">
-                    {error}
-                    </p>}
+                {error && <p className="text-red-600 text-sm mt-3">{error}</p>}
               </form>
             </div>
           </div>

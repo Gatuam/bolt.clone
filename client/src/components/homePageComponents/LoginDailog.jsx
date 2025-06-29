@@ -5,10 +5,11 @@ import { useAuthStore } from "../../store/authstore";
 import toast from "react-hot-toast";
 
 const LoginDialog = () => {
-  const { open, dialogType, setOpen, openDialog } = useContext(DialogOpenContext);
+  const { open, dialogType, setOpen, openDialog } =
+    useContext(DialogOpenContext);
   const emailRef = useRef();
   const passwordRef = useRef();
-  const {error, isLoading , login} = useAuthStore();
+  const { error, isLoading, login } = useAuthStore();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -16,8 +17,8 @@ const LoginDialog = () => {
     const password = passwordRef.current.value;
     try {
       await login(email, password);
-      toast.success("login succefully")
-      setOpen(false)
+      toast.success("login succefully");
+      setOpen(false);
     } catch (error) {
       console.log(error);
     }
@@ -57,9 +58,7 @@ const LoginDialog = () => {
             >
               {isLoading ? "logining..." : "Login"}
             </button>
-              {(error && <p className="text-red-600 text-sm">
-                {error}
-              </p>)}
+            {error && <p className="text-red-600 text-sm">{error}</p>}
           </form>
 
           <div
