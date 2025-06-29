@@ -7,7 +7,6 @@ import {
   SandpackFileExplorer,
 } from "@codesandbox/sandpack-react";
 import { XMLParser } from "fast-xml-parser";
-import { PromptContext } from "../../context/PromptContext";
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
 import { MessagesContext } from "../../context/Messages.context";
@@ -15,65 +14,77 @@ import { SandPackContext } from "../../context/SandPackContext";
 
 const Codepreview = () => {
   const { message } = useContext(MessagesContext);
-  const { input } = useContext(PromptContext);
   const [activeTab, setActiveTab] = useState("code");
   const [sandpackFiles, setSandpackFiles] = useState({});
   const [sandpackTemplate, setSandpackTemplate] = useState("react");
-  const { rawFiles, setRawFiles } = useContext(SandPackContext);
+  const {  setRawFiles } = useContext(SandPackContext);
   const parser = new XMLParser({
     ignoreAttributes: false,
     attributeNamePrefix: "",
   });
 
   useEffect(() => {
-    async function fetchTemplate() {
-      try {
-        const response = await axios.post(`${BACKEND_URL}/template`, {
-          prompt: input,
-        });
-        const { uiPrompts } = response.data;
+    const lastMessage = message[message.length - 1]?.message;
+  async function fetchTemplate() {
+    try {
+      const response = await axios.post(`${BACKEND_URL}/template`, {
+        prompt: lastMessage,
+      });
 
-        const result = parser.parse(uiPrompts);
+      const { uiPrompts } = response.data;
+      const result = parser.parse(uiPrompts);
 
-        const actions = result.boltArtifact.boltAction;
-        const array = Array.isArray(actions) ? actions : [actions];
+      const actions = result.boltArtifact.boltAction;
+      const array = Array.isArray(actions) ? actions : [actions];
 
-        const files = array.map((a) => {
-          const filePath = a.filePath;
-          const content = a["#text"] || "";
-          const parts = filePath.split("/");
-          const fileName = parts[parts.length - 1];
-          const category = parts.length > 1 ? parts[1] : "root"; // e.g., "components"
+      const files = array.map((a) => {
+        const filePath = a.filePath;
+        const content = a["#text"] || "";
+        const parts = filePath.split("/");
+        const fileName = parts[parts.length - 1];
+        const category = parts.length > 1 ? parts[1] : "root";
 
-          return {
-            type: a.type,
-            filePath,
-            fileName,
-            category,
-            content,
-            isEmpty: content.trim().length === 0,
-          };
-        });
+        return {
+          type: a.type,
+          filePath,
+          fileName,
+          category,
+          content,
+          isEmpty: content.trim().length === 0,
+        };
+      });
 
-        const formatted = files.reduce((acc, file) => {
-          acc[file.filePath] = {
-            code: file.content || "",
-          };
-          return acc;
-        }, {});
-        const isNode = files.some((file) => file.filePath === "index.js");
-        const template = isNode ? "node" : "react";
-        setSandpackTemplate(template);
-        setSandpackFiles(formatted);
-        setRawFiles(files);
-        console.log(files);
-      } catch (error) {
-        console.error("Error fetching template:", error);
-      }
+      // Save full project for backend use
+      setRawFiles(files);
+
+      // Prepare only the previewable files for Sandpack
+      const sandpackPreviewableExtensions = [
+        ".ts", ".tsx", ".js", ".jsx", ".css", ".html", ".d.ts",
+      ];
+
+      const previewFiles = files.filter(file =>
+        sandpackPreviewableExtensions.some(ext => file.fileName.endsWith(ext))
+      );
+
+      const formatted = previewFiles.reduce((acc, file) => {
+        acc[file.filePath.startsWith("/") ? file.filePath : `/${file.filePath}`] = {
+          code: file.content || "",
+        };
+        return acc;
+      }, {});
+
+      const template = files.some(f => f.filePath === "index.js") ? "node" : "react-ts";
+      setSandpackTemplate(template);
+      setSandpackFiles(formatted);
+
+    } catch (error) {
+      console.error("Error fetching template:", error);
     }
+  }
 
-    fetchTemplate();
-  }, [message]);
+  fetchTemplate();
+}, [message]);
+
 
   return (
     <div className="ml-2 px-2 bg-[#111] h-[99vh] border border-[#1dd9ff22] p-3 rounded-lg">
@@ -103,15 +114,14 @@ const Codepreview = () => {
         </div>
       </div>
 
-      <SandpackProvider
-        template="react"
-        theme={"dark"}
-        files={sandpackFiles}
-        options={{
-          activeFile:
-            sandpackTemplate === "node" ? "/index.js" : "/src/main.tsx",
-        }}
-      >
+ <SandpackProvider
+  template={sandpackTemplate}
+  theme="dark"
+  files={sandpackFiles}
+  options={{
+    activeFile: sandpackTemplate === "node" ? "/index.js" : "/src/main.tsx",
+  }}
+>
         <SandpackLayout>
           <SandpackFileExplorer style={{ height: "90vh" }} />
           {activeTab === "code" && (

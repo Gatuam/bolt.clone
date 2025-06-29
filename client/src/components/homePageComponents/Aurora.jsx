@@ -24,14 +24,14 @@ const Aurora = () => {
   });
   return (
     <motion.div
-      className="w-full h-screen  flex flex-col justify-center items-center bg-gradient-to-b from-[#000000] to-[#151515] text-white relative"
+      className="w-full h-screen flex flex-col justify-between items-center bg-gradient-to-b from-[#000000] to-[#151515] text-white relative py-30"
       style={{
         backgroundImage,
       }}
     >
       <Nav />
       <div
-        className="absolute top-50 border px-5 py-1 border-[#326bfb4d] bg-[#2f5ce413] rounded-4xl w-70 h-8 flex justify-center items-center  
+        className=" border px-5 py-1 border-[#326bfb4d] bg-[#2f5ce413] rounded-4xl w-70 h-8 flex justify-center items-center mb-5  
         shadow-[inset_0px_1px_4px_0px_rgba(255,255,255,0.1),inset_0px_-1px_4px_0px_rgba(255,255,255,0.1)]"
       >
         <h1 className="text-[#ffffff7b] text-sm ">
@@ -42,12 +42,13 @@ const Aurora = () => {
         <h1 className="text-neutral-200 font-bold text-4xl mb-4">
           What do you want to build?
         </h1>
-        <p className="text-sm  text-neutral-500 ">
+        <p className="text-sm  text-neutral-500 mb-5 ">
           Create stunning apps & websites by chatting with AI.
         </p>
+        <InputBox size="medium" />
       </div>
-      <InputBox size="medium" />
-      <div className="absolute bottom-20 flex gap-5  ">
+      
+      <div className=" flex gap-5">
         {svgs.map((item) => (
           <div
             key={item.id}

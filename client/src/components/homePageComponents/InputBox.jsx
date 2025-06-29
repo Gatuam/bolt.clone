@@ -1,21 +1,29 @@
 import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import { DialogOpenContext } from "../../context/DialogContext";
 import { appIdeas } from "../../utils/constants";
 import { MessagesContext } from "../../context/Messages.context";
 import { PromptContext } from "../../context/PromptContext";
+import { useAuthStore } from "../../store/authstore";
 
 const InputBox = ({ size = "medium" }) => {
   const navigate = useNavigate();
   const location = useLocation();
-
+    const {  user } = useAuthStore();
+  const { open, setOpen } = useContext(DialogOpenContext);
   const { setMessage } = useContext(MessagesContext);
   const { input, setInput } = useContext(PromptContext);
 
   const handleNavigate = () => {
+
+    if(!user){
+      setOpen(true);
+      return;
+    }
     if (location.pathname !== "/editor") {
       navigate("/editor");
     }
+    setInput("");
   };
 
   const handleSubmit = (value) => {
@@ -37,7 +45,7 @@ const InputBox = ({ size = "medium" }) => {
       >
         <textarea
           onChange={(e) => setInput(e.target.value)}
-          
+          value={input}
           className="w-full pl-4 pt-2 pr-16 focus:outline-none resize-none text-bolt-elements-textPrimary placeholder-bolt-elements-textTertiary bg-transparent text-sm"
           placeholder="Hello, how can ek.ai help you today?"
           name="prompt"

@@ -2,6 +2,9 @@ const { PrismaClient } = require("../generated/prisma");
 const prisma = new PrismaClient();
 
 const checkAuth = async (req, res) => {
+  if (!req.userId) {
+      return res.status(401).json({ success: false, message: 'User ID missing' });
+    }
   try {
     const user = await prisma.user.findUnique({
       where: { id: req.userId },

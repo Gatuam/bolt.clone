@@ -2,6 +2,7 @@ const { PrismaClient } = require("../generated/prisma");
 const bcrypt = require("bcrypt");
 const genToken = require("../utils/genToken");
 const sendMail = require("../mail/mail.config");
+const sanitizeUser = require("../utils/sanitizeUser");
 
 const prisma = new PrismaClient();
 
@@ -42,15 +43,16 @@ const signup = async (req, res) => {
     await sendMail(user.email, user.username, VerificationToken.token);
     console.log(VerificationToken.token);
     console.log(user.email);
-
+    const { password, ...safeUser } = user;
     res.status(200).json({
       success: true,
       message: "User created successfully",
+      user: safeUser,
     });
   } catch (error) {
     return res.status(400).json({
       success: false,
-      message: error.message,
+      message:  error.message || "user already exist"
     });
   }
 };
@@ -96,10 +98,11 @@ const verfiyEmail = async (req, res) => {
       },
     });
     await sendMail(user.email, user.username, "welcome to Bolt.new ai");
-
+    const { password, ...safeUser } = user;
     await res.status(200).json({
       success: true,
       message: "Email verified successfully",
+      user: safeUser
     });
   } catch (error) {
     return res.status(400).json({
@@ -140,10 +143,11 @@ const login = async (req, res) => {
       where: { id: user.id },
       data: { lastLogin: new Date() },
     });
-
-    res.status(200).json({
+    const { password, ...safeUser } = user;
+    await res.status(200).json({
       success: true,
       message: "Logged in successfully",
+      user: safeUser,
     });
   } catch (error) {
     return res.status(400).json({
@@ -198,7 +202,7 @@ const forgotPassword = async (req, res) => {
       "reset your password"
     );
 
-    res.status(200).json({
+    await res.status(200).json({
       success: true,
       message: "Check your email to resetpassword",
     });
@@ -241,7 +245,7 @@ const resetPasswod = async (req, res) => {
       "your password is succefully changed"
     );
 
-    res.status(200).json({
+    await res.status(200).json({
       success: true,
       message: "Password reset successful",
     });
