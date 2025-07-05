@@ -9,90 +9,33 @@ import {
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
 import { MessagesContext } from "../../context/Messages.context";
+import { AllDependencies, defaultFiles } from "../helper/codeview";
+
+const sanitizeFiles = (rawFiles) => {
+  const sanitized = {};
+  for (const [path, file] of Object.entries(rawFiles)) {
+    if (!file || typeof file !== "object") continue;
+
+    if (path === "/package.json" && typeof file.code === "object") {
+      sanitized[path] = {
+        code: JSON.stringify(file.code, null, 2), // Convert to string
+      };
+    } else {
+      sanitized[path] = {
+        code: file.code,
+      };
+    }
+  }
+  return sanitized;
+};
 
 const Codepreview = () => {
   const { message } = useContext(MessagesContext);
-
   const [activeTab, setActiveTab] = useState("code");
-  const [sandpackTemplate, setSandpackTemplate] = useState("react");
-  const [files, setFiles] = useState({});
+  const [files, setFiles] = useState({ ...defaultFiles });
 
   useEffect(() => {
     const lastMessage = message[message.length - 1]?.message;
-    const file = {
-    "/package.json": `
-    {
-      "dependencies": {
-        "react": "18.2.0",
-        "react-dom": "18.2.0",
-        "lucide-react": "0.294.0"
-      }
-    }
-    `,
-    "/App.jsx": `
-    import React, { useState, useEffect } from "react";
-
-    export default function App() {
-      const [tasks, setTasks] = useState(() => {
-        const saved = localStorage.getItem("tasks");
-        return saved ? JSON.parse(saved) : [];
-      });
-      const [filter, setFilter] = useState("all");
-      const [newTask, setNewTask] = useState("");
-
-      useEffect(() => {
-        localStorage.setItem("tasks", JSON.stringify(tasks));
-      }, [tasks]);
-
-      const addTask = () => {
-        if (newTask.trim() === "") return;
-        setTasks([...tasks, { id: Date.now(), text: newTask, done: false }]);
-        setNewTask("");
-      };
-
-      const toggleTask = (id) => {
-        setTasks(tasks.map(t => t.id === id ? {...t, done: !t.done} : t));
-      };
-
-      const filteredTasks = tasks.filter(task => {
-        if (filter === "all") return true;
-        if (filter === "done") return task.done;
-        if (filter === "pending") return !task.done;
-      });
-
-      return (
-        <div style={{ maxWidth: 400, margin: "0 auto", padding: 20, fontFamily: "sans-serif" }}>
-          <h1>Todo App</h1>
-          <input
-            value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-            placeholder="New task"
-          />
-          <button onClick={addTask}>Add</button>
-          <div style={{ marginTop: 10 }}>
-            <button onClick={() => setFilter("all")}>All</button>
-            <button onClick={() => setFilter("done")}>Done</button>
-            <button onClick={() => setFilter("pending")}>Pending</button>
-          </div>
-          <ul>
-            {filteredTasks.map(task => (
-              <li
-                key={task.id}
-                onClick={() => toggleTask(task.id)}
-                style={{ 
-                  cursor: "pointer",
-                  textDecoration: task.done ? "line-through" : "none"
-                }}
-              >
-                {task.text}
-              </li>
-            ))}
-          </ul>
-        </div>
-      );
-    }
-    `
-  };
 
     async function fetchTemplate() {
       try {
@@ -100,27 +43,10 @@ const Codepreview = () => {
           prompt: lastMessage,
         });
         const raw = response.data.response || response.data;
-
-        setFiles(file);
-        setSandpackTemplate("react");
+        const sanitized = sanitizeFiles(raw);
+        setFiles(sanitized);
       } catch (error) {
         console.error("Error fetching template:", error.message);
-
-        setFiles({
-          "/src/App.jsx": `
-            export default function App() {
-              return <div>Error loading code: ${error.message}</div>;
-            };
-          `,
-          "/src/index.js": `
-            import React from "react";
-            import ReactDOM from "react-dom/client";
-            import App from "./App";
-            const root = document.getElementById("root");
-            ReactDOM.createRoot(root).render(<App />);
-          `,
-        });
-        setSandpackTemplate("react");
       }
     }
 
@@ -158,9 +84,21 @@ const Codepreview = () => {
       </div>
 
       <SandpackProvider
-        template=''
+        template=""
         files={files}
         theme="dark"
+        options={{
+          externalResources: [
+            "https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4",
+          ],
+        }}
+        customSetup={{
+          entry: "/src/main.jsx",
+          dependencies: {
+            ...AllDependencies.dependencies,
+            ...AllDependencies.devDependencies,
+          },
+        }}
       >
         <SandpackLayout>
           <SandpackFileExplorer style={{ height: "90vh" }} />

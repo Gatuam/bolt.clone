@@ -1,6 +1,3 @@
- const WORK_DIR_NAME = 'project';
- const WORK_DIR = `/home/${WORK_DIR_NAME}`;
- const MODIFICATIONS_TAG_NAME = 'bolt_file_modifications';
 
  const allowedHTMLElements = [
     'a',
@@ -54,8 +51,5 @@
   ];
 
   module.exports = {
-  WORK_DIR_NAME,
-  WORK_DIR,
-  MODIFICATIONS_TAG_NAME,
   allowedHTMLElements,
 };

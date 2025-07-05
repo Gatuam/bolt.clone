@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { MessagesContext } from "../../context/Messages.context";
 import InputBox from "../homePageComponents/InputBox";
-import { Check } from "lucide-react";
 
 const ChatView = () => {
   const { message } = useContext(MessagesContext);
