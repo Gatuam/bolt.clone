@@ -32,50 +32,41 @@ app.post("/template", async (req, res) => {
 
   if (!prompt || typeof prompt !== "string" || prompt.trim() === "") {
     return res.status(400).json({
-      messages: "prompt can't be empty",
+      message: "Prompt can't be empty",
     });
   }
+
   try {
-    const response = await anthropic.messages.create({
+    let fullText = "";
+
+    const stream = await anthropic.messages.stream({
       model: "claude-3-5-haiku-20241022",
       max_tokens: 100,
       temperature: 0,
-      system:
-        "Return either node or react based on what do you think this project should be. Only return a single word either 'node' or 'react'. Do not return anything extra",
+      system: getSystemPrompt(),
       messages: [
-        {
-          role: "user",
-          content: prompt,
-        },
+        { role: "user", content: prompt },
+        { role: "user", content: BASE_PROMPT_REACT },
       ],
     });
 
-    const rawAnswer = response?.content?.[0]?.text || "";
-    const answer = rawAnswer.trim().toLowerCase();
+    stream.on("text", (text) => {
+      fullText += text;
+    });
 
-    if (answer === "react") {
-      return res.json({
-        prompts: [
-          BASE_PROMPT_REACT,
-          `Here is an artifact that contains all files of the project visible to you.\nConsider the contents of ALL files in the project.\n\n${reactTemplate}\n\nHere is a list of files that exist on the file system but are not being shown to you:\n\n  - .gitignore\n  - package-lock.json\n`,
-        ],
-        uiPrompts: [reactTemplate],
-      });
-    } else if (answer === "node") {
-      return res.json({
-        prompts: [
-          BASE_PROMPT_NODE,
-          `Here is an artifact that contains all files of the project visible to you.\nConsider the contents of ALL files in the project.\n\n${nodejsTemplate}\n\nHere is a list of files that exist on the file system but are not being shown to you:\n\n  - .gitignore\n  - package-lock.json\n`,
-        ],
-        uiPrompts: [nodejsTemplate],
-      });
-    } else {
-      return res.status(400).json({
-        message: "Invalid model response.",
-      });
-    }
+    stream.on("end", () => {
+      // Now return fullText in response
+      res.json({ response: fullText });
+      console.log(fullText)
+    });
+
+    stream.on("error", (err) => {
+      console.error("Streaming error:", err);
+      res.status(500).json({ message: "Stream error", error: err.message });
+    });
+
   } catch (error) {
-    console.log("template endpoint error", error);
+    console.error("Template endpoint error:", error);
     return res.status(500).json({
       message: "Error communicating with model",
       error: error.message,
@@ -83,23 +74,7 @@ app.post("/template", async (req, res) => {
   }
 });
 
-app.post("/chat", async (req, res) => {
-  const message = req.body.message;
-  const msg = await anthropic.messages
-    .stream({
-      model: "claude-3-5-haiku-20241022",
-      max_tokens: 1000,
-      temperature: 0.01,
-      system: getSystemPrompt(),
-      messages: message,
-    })
-    .on("text", (text) => {
-      console.log(text);
-    });
-  res.json({
-    code: "this is you code",
-  });
-});
+
 
 async function talkToApi() {
   const msg = await anthropic.messages
@@ -111,7 +86,7 @@ async function talkToApi() {
       messages: [
         {
           role: "user",
-          content: BASE_PROMPT,
+          content: BASE_PROMPT_REACT,
         },
         {
           role: "user",
