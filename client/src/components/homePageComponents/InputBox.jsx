@@ -40,7 +40,7 @@ const InputBox = ({ size = "medium" }) => {
   return (
     <div className="flex flex-col justify-center items-center w-110">
       <div
-        className={`flex flex-col ${containerWidth[size]} h-33 rounded-md text-neutral-500 bg-[#11111128] text-sm border border-[#24a4f956] outline-0 p-3 font-medium justify-between relative`}
+        className={`flex flex-col ${containerWidth[size]} h-33 rounded-md text-neutral-500 bg-[#11111128] text-sm border border-[#24f9f941] outline-0 p-3 font-medium justify-between relative`}
       >
         <textarea
           onChange={(e) => setInput(e.target.value)}
@@ -51,8 +51,9 @@ const InputBox = ({ size = "medium" }) => {
         />
 
         {/* Glowing top lines */}
-        <div className="absolute top-0 left-5 h-[1px] w-[30%] bg-[rgba(40,116,248,0.66)] blur-[1.99px]" />
-        <div className="absolute top-0 left-1 h-[1px] w-[30%] bg-[rgba(40,54,248,0.84)] blur-[3px]" />
+       <div className="absolute top-0 left-5 h-px w-[30%] bg-cyan-300 opacity-20 blur-[1px]" />
+<div className="absolute top-0 left-1 h-px w-[40%] bg-cyan-200 opacity-30 blur-[1px] " />
+
 
         {/* Control icon (bottom-left) */}
         <div className="absolute bottom-3 left-5 flex gap-2 pb-1">

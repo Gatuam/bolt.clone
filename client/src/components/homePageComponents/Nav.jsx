@@ -12,7 +12,7 @@ const Nav = () => {
       className="flex w-[100%] h-20 justify-between items-center 
     bg-[#0000] px-10 absolute top-0"
     >
-      <h1 className="logo text-[#74f1ff96] text-3xl">bolt.clone</h1>
+      <h1 className="logo text-[#74f1ff96] text-3xl">EK-GAUTHAM_ai</h1>
       <div className=" text-white flex justify-between items-center gap-10">
         <div
           onClick={dailogOpen}

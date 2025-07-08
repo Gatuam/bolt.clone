@@ -21,6 +21,44 @@ const anthropic = new Anthropic();
 
 app.use("/api/auth", authRoutes);
 
+app.post("/chat", async function (req, res) {
+  const prompt = req.body.prompt;
+
+  if (!prompt || typeof prompt !== "string" || prompt.trim() === "") {
+    return res.status(400).json({ message: "Prompt can't be empty" });
+  }
+
+  try {
+    const stream = await anthropic.messages.stream({
+      model: "claude-3-5-haiku-20241022",
+      max_tokens: 100,
+      temperature: 0,
+      system:
+        "Look at the user request and respond back to the user only in 30 words. You are an ek AI that creates beautiful websites. Respond everytime in different answer.",
+      messages: [{ role: "user", content: prompt }],
+    });
+
+    res.setHeader("Content-Type", "text/plain");
+    res.setHeader("Transfer-Encoding", "chunked");
+
+    stream.on("text", (text) => {
+      res.write(text);
+    });
+
+    stream.on("end", () => {
+      res.end();
+    });
+
+    stream.on("error", (err) => {
+      console.error("Stream error:", err);
+      res.status(500).end("Stream error");
+    });
+  } catch (error) {
+    console.error("Catch error:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
 app.post("/template", async (req, res) => {
   const prompt = req.body.prompt;
 
@@ -30,11 +68,12 @@ app.post("/template", async (req, res) => {
 
   try {
     let fullResponse = "";
+    let responseSent = false;
 
     const stream = await anthropic.messages.stream({
       model: "claude-3-5-haiku-20241022",
-      max_tokens: 1500,
-      temperature: 0,
+      max_tokens: 80,
+      temperature: 0.09,
       system: getSystemPrompt(),
       messages: [
         { role: "user", content: prompt },
@@ -43,29 +82,43 @@ app.post("/template", async (req, res) => {
     });
 
     stream.on("text", (text) => {
-      fullResponse += text; // accumulate streamed text
+      fullResponse += text;
     });
 
     stream.on("end", () => {
+      if (responseSent) return;
       console.log("Stream complete");
+
       try {
-        const parsed = JSON.parse(fullResponse); // optional: if the model returns JSON
+        const parsed = JSON.parse(fullResponse);
         res.json(parsed);
       } catch (e) {
-        res.json({ response: fullResponse }); // send raw response if not JSON
+        console.log(
+          "Could not parse JSON (maybe token limit hit). Sending raw response."
+        );
+        res.json({ response: fullResponse });
       }
+
+      responseSent = true;
     });
 
     stream.on("error", (err) => {
-      console.error("Stream error:", err);
-      res.status(500).json({ message: "Stream error", error: err.message });
+      if (responseSent) return;
+      console.error("Stream error:", err?.error?.message || err.message);
+      res.status(503).json({
+        message: "Claude API overloaded. Please try again.",
+        error: err?.error?.message || "Unknown error",
+      });
+      responseSent = true;
     });
   } catch (error) {
     console.error("Template endpoint error:", error);
-    res.status(500).json({
-      message: "Error communicating with model",
-      error: error.message,
-    });
+    if (!res.headersSent) {
+      res.status(500).json({
+        message: "Server error",
+        error: error.message,
+      });
+    }
   }
 });
 

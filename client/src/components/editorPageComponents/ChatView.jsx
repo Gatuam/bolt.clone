@@ -1,37 +1,56 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MessagesContext } from "../../context/Messages.context";
 import InputBox from "../homePageComponents/InputBox";
+import axios from "axios";
+import { BACKEND_URL } from "../../config";
+import { AtomIcon, UserIcon } from "lucide-react";
 
 const ChatView = () => {
-  const { message } = useContext(MessagesContext);
+  const { message, setMessage } = useContext(MessagesContext);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const lastMessageObj = message[message.length - 1];
+    const lastMessage = lastMessageObj?.message;
+    const fetchMessage = async () => {
+      try {
+        const response = await axios.post(`${BACKEND_URL}/chat`, {
+          prompt: lastMessage,
+        });
+        const message = response.data.response || response.data;
+        setMessage((prev) => [...prev, { role: "ai", message }]);
+      } catch (error) {
+        console.error("Error fetching template:", error.message);
+      } finally {
+        setIsLoading(true);
+      }
+    };
+    if (lastMessageObj?.role === "user") {
+      fetchMessage();
+    }
+  }, [message]);
 
   return (
-    <div className="bg-[#06181a23] h-[99vh] border border-[#1dd9ff22] p-3 rounded-lg flex flex-col justify-between relative overflow-hidden">
+    <div className="bg-[#00000023] h-[99vh] border border-[#1dd9ff22] p-3 rounded-lg flex flex-col justify-between relative overflow-hidden">
       {}
       <div className="overflow-y-auto px-2 flex-1 flex flex-col gap-4 pr-3 w-full [&::-webkit-scrollbar]:hidden">
         {message.map((msg, i) => (
           <div
             key={i}
-            className={`self-${
-              msg.role === "user" ? "end" : "start"
-            } max-w-[100%] bg-[#31313181] text-neutral-300 p-3 rounded-md border border-[#277af614] text-sm`}
+            className={`${
+              msg.role === "ai" && "self-end w-full"
+            } max-w-[80%] bg-[#113f3d13] text-neutral-300 p-3 rounded-sm border border-[#27bbf614] text-sm`}
           >
             <p className="break-words leading-5">{msg.message}</p>
-            <div className="flex items-center gap-2 mt-2 text-neutral-500 text-xs">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-4 h-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                />
-              </svg>
+            <div className="flex items-center gap-2 mt-2 text-neutral-500 text-xs ">
+              <div className="border-1 px-1 rounded-full border-[#02eef721] bg-[#00f7ff0a] text-[#00eeff]">
+                {msg.role === "user" ? (
+                  <UserIcon className="w-4" />
+                ) : (
+                  <AtomIcon className="w-4" />
+                )}
+              </div>
               {msg.role}
             </div>
           </div>

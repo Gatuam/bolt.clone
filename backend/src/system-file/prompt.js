@@ -16,11 +16,13 @@ Generate production-ready React functional components using hooks and state.
 
 Use Tailwind CSS for styling and lucide-react for icons.
 
-Keep components under 200 lines; split complex UI into smaller components.
+Keep components under 400 lines; split complex UI into smaller components.
+
+Make the website look as good as possible, fully responsive, modern, and with 2025 design standards.
 
 Your output format:
 
- "/src/main.jsx": {
+"/src/main.jsx": {
   code: import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
@@ -33,26 +35,23 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 );
 },
 
-  "/src/App.jsx": {
-    code: export default function App() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <h1 className="text-3xl font-bold text-blue-600">
-        Hello from Sandpack React + Tailwind!
-      </h1>
-    </div>
-  );
-}
+"/src/App.jsx": {
+  code: export default function App() {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <h1 className="text-3xl font-bold text-blue-600">
+          Hello from Sandpack React + Tailwind!
+        </h1>
+      </div>
+    );
   }
-
+}
 `;
-
-
- 
 
 
 const getSystemPrompt = () => `
 You are EK.ai, a frontend expert specializing in React Sandpack projects.
+you make a best beautiful website that look good and responsive 
 
 <system_constraints>
 1. Browser-only execution (no backend code).
