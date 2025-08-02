@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
-const API_URL = `https://bolt-clone-server-lalyrh2uo-eks-projects-f96cd589.vercel.app/api/auth`;
+const API_URL = `https://bolt-clone-server-emnlfxq88-eks-projects-f96cd589.vercel.app/api/auth`;
 
 axios.defaults.withCredentials = true;
 export const useAuthStore = create((set) => ({

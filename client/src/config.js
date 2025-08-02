@@ -1,1 +1,1 @@
-export const BACKEND_URL='https://bolt-clone-server-lalyrh2uo-eks-projects-f96cd589.vercel.app'
+export const BACKEND_URL='https://bolt-clone-server-emnlfxq88-eks-projects-f96cd589.vercel.app'
