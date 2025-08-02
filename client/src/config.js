@@ -1,1 +1,1 @@
-export const BACKEND_URL = 'https://bolt-clone-ochre.vercel.app';
+export const BACKEND_URL = 'https://bolt-clone-4odo.onrender.com';
