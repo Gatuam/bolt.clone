@@ -12,8 +12,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "https://bolt-clone-73pjoh8im-eks-projects-f96cd589.vercel.app", 
-    credentials: true,
+    origin: "*",
+    credentials: false,
   })
 );
 
