@@ -39,10 +39,10 @@ const ChatView = () => {
           <div
             key={i}
             className={`${
-              msg.role === "ai" && "self-end w-full"
-            } max-w-[80%] bg-[#113f3d13] text-neutral-300 p-3 rounded-sm border border-[#27bbf614] text-sm`}
+              msg.role === "ai" && "self-end w-full max-w-[80%]"
+            } max-w-[70%] bg-[#242424] text-neutral-300 px-3 py-2 rounded-sm border border-[#27bbf614] text-sm`}
           >
-            <p className="break-words leading-5">{msg.message}</p>
+            <p className="break-words line-clamp-4 leading-5">{msg.message}</p>
             <div className="flex items-center gap-2 mt-2 text-neutral-500 text-xs ">
               <div className="border-1 px-1 rounded-full border-[#02eef721] bg-[#00f7ff0a] text-[#00eeff]">
                 {msg.role === "user" ? (
