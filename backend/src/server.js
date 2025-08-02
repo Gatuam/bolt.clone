@@ -4,16 +4,14 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { getSystemPrompt, BASE_PROMPT_REACT } = require("./system-file/prompt");
 const Anthropic = require("@anthropic-ai/sdk");
-const { reactTemplate } = require("./templates/react.template");
 const authRoutes = require("./routes/auth.route");
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Whitelist allowed frontend origins
 const allowedOrigins = [
-  "https://bolt-clone-inky.vercel.app/",
+  "https://bolt-clone-inky.vercel.app",
   "http://localhost:3000"
 ];
 
