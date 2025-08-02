@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const cors = require("cors");
+const cors = require("cors"); 
 const cookieParser = require("cookie-parser");
 const { getSystemPrompt, BASE_PROMPT_REACT } = require("./system-file/prompt");
 const Anthropic = require("@anthropic-ai/sdk");
@@ -10,7 +10,6 @@ const authRoutes = require("./routes/auth.route");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const cors = require("cors");
 
 // Whitelist allowed frontend origins
 const allowedOrigins = [
@@ -27,10 +26,21 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true, // Allow cookies
+    credentials: true,
   })
 );
 
+// Explicitly handle preflight requests
+app.options("*", cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+}));
 
 app.use(cookieParser());
 const anthropic = new Anthropic();
@@ -137,7 +147,6 @@ app.post("/template", async (req, res) => {
     }
   }
 });
-
 
 app.listen(process.env.PORT || 3000, () => {
   console.log("app is listen on 3000");

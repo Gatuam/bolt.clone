@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import axios from "axios";
-const API_URL = `https://bolt-clone-ofuv.onrender.com/api/auth`;
+import { BACKEND_URL } from "../config";
+const API_URL = `${BACKEND_URL}/api/auth`;
 
 axios.defaults.withCredentials = true;
 export const useAuthStore = create((set) => ({
