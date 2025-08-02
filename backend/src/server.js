@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://bolt-clone-675olvkfi-eks-projects-f96cd589.vercel.app/",
     credentials: true,
   })
 );
