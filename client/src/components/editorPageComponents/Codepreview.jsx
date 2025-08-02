@@ -63,43 +63,42 @@ const Codepreview = () => {
 
   return (
     <>
-      {isLoading && (
-        <div className="w-full h-screen text-[#07eec7] text-2xl justify-center items-center  flex py-1 px-1">
-          <div className="flex justify-center ">
-            Generation your website.......
-            <Loader className=" animate-spin mx-auto" />
+      <div className="ml-2 px-2 bg-[#111] h-[99vh] border border-[#1dd9ff22] p-3 rounded-lg relative">
+        {/* Tab Switcher */}
+        <div className="w-full h-10 flex gap-2 mb-2">
+          <div className="bg-[#111] border border-[#19ffd927] p-1 rounded-full text-[16px] flex justify-center items-center gap-1">
+            <h2
+              className={`bg-[#3a3a3a9e] p-[6px] border border-[#19ffd927] rounded-full cursor-pointer transition-colors ${
+                activeTab === "code"
+                  ? "text-white bg-[#19ffd927]"
+                  : "text-neutral-400"
+              }`}
+              onClick={() => setActiveTab("code")}
+            >
+              Code
+            </h2>
+            <h2
+              className={`bg-[#3a3a3a9e] p-[6px] border border-[#19ffd927] rounded-full cursor-pointer transition-colors ${
+                activeTab === "preview"
+                  ? "text-white bg-[#19ffd927]"
+                  : "text-neutral-400"
+              }`}
+              onClick={() => setActiveTab("preview")}
+            >
+              Preview
+            </h2>
           </div>
         </div>
-      )}
-
-      {!isLoading && (
-        <div className="ml-2 px-2 bg-[#111] h-[99vh] border border-[#1dd9ff22] p-3 rounded-lg relative">
-          {/* Tab Switcher */}
-          <div className="w-full h-10 flex gap-2 mb-2">
-            <div className="bg-[#111] border border-[#19ffd927] p-1 rounded-full text-[16px] flex justify-center items-center gap-1">
-              <h2
-                className={`bg-[#3a3a3a9e] p-[6px] border border-[#19ffd927] rounded-full cursor-pointer transition-colors ${
-                  activeTab === "code"
-                    ? "text-white bg-[#19ffd927]"
-                    : "text-neutral-400"
-                }`}
-                onClick={() => setActiveTab("code")}
-              >
-                Code
-              </h2>
-              <h2
-                className={`bg-[#3a3a3a9e] p-[6px] border border-[#19ffd927] rounded-full cursor-pointer transition-colors ${
-                  activeTab === "preview"
-                    ? "text-white bg-[#19ffd927]"
-                    : "text-neutral-400"
-                }`}
-                onClick={() => setActiveTab("preview")}
-              >
-                Preview
-              </h2>
+        {isLoading && (
+          <div className="w-full h-screen text-[#07eec7] text-2xl justify-center items-center  flex py-1 px-1">
+            <div className="flex justify-center ">
+              Generation your website.......
+              <Loader className=" animate-spin mx-auto" />
             </div>
           </div>
+        )}
 
+        {!isLoading && (
           <SandpackProvider
             template="react"
             files={files}
@@ -133,8 +132,8 @@ const Codepreview = () => {
               )}
             </SandpackLayout>
           </SandpackProvider>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 };

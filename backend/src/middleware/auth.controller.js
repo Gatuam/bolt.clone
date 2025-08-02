@@ -28,7 +28,8 @@ const signup = async (req, res) => {
         password: hashedPassword,
       },
     });
-    const token = crypto.randomUUID();
+     const fullUUID = crypto.randomUUID();
+    const token = fullUUID.replace(/-/g, '').slice(0, 6)
     const expiresAt = new Date(Date.now() + 12 * 1000 * 60 * 60); //12 hour
 
     const VerificationToken = await prisma.verificationToken.create({

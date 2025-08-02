@@ -72,7 +72,7 @@ app.post("/template", async (req, res) => {
 
     const stream = await anthropic.messages.stream({
       model: "claude-3-5-haiku-20241022",
-      max_tokens: 80,
+      max_tokens: 7000,
       temperature: 0.09,
       system: getSystemPrompt(),
       messages: [
@@ -122,32 +122,6 @@ app.post("/template", async (req, res) => {
   }
 });
 
-async function talkToApi() {
-  const msg = await anthropic.messages
-    .stream({
-      model: "claude-3-5-haiku-20241022",
-      max_tokens: 10,
-      temperature: 0.01,
-      system: getSystemPrompt(),
-      messages: [
-        {
-          role: "user",
-          content: BASE_PROMPT_REACT,
-        },
-        {
-          role: "user",
-          content: `Here is an artifact that contains all files of the project visible to you.\nConsider the contents of ALL files in the project.\n\n${reactTemplate}\n\nHere is a list of files that exist on the file system but are not being shown to you:\n\n  - .gitignore\n  - package-lock.json\n`,
-        },
-        {
-          role: "user",
-          content: "create a todo app",
-        },
-      ],
-    })
-    .on("text", (text) => {
-      console.log(text);
-    });
-}
 
 app.listen(process.env.PORT || 3000, () => {
   console.log("app is listen on 3000");
