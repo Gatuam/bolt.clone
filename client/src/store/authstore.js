@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
-const API_URL = `https://bolt-clone-server.vercel.app/api/auth`;
+const API_URL = `https://bolt-clone-ofuv.onrender.com/api/auth`;
 
 axios.defaults.withCredentials = true;
 export const useAuthStore = create((set) => ({
