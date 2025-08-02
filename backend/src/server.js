@@ -12,10 +12,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "https://bolt-clone-675olvkfi-eks-projects-f96cd589.vercel.app",
+    origin: "https://bolt-clone-7bla2cf05-eks-projects-f96cd589.vercel.app",
     credentials: true,
   })
 );
+
 app.use(cookieParser());
 const anthropic = new Anthropic();
 
