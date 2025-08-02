@@ -10,12 +10,27 @@ const authRoutes = require("./routes/auth.route");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+const cors = require("cors");
+
+// Whitelist allowed frontend origins
+const allowedOrigins = [
+  "https://bolt-clone-ochre.vercel.app",
+  "http://localhost:3000"
+];
+
 app.use(
   cors({
-    origin: "https://bolt-clone-ochre.vercel.app/",
-    credentials: true,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // Allow cookies
   })
 );
+
 
 app.use(cookieParser());
 const anthropic = new Anthropic();
