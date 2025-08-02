@@ -1,6 +1,7 @@
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 const express = require("express");
-const cors = require("cors"); 
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { getSystemPrompt, BASE_PROMPT_REACT } = require("./system-file/prompt");
 const Anthropic = require("@anthropic-ai/sdk");
@@ -9,7 +10,6 @@ const authRoutes = require("./routes/auth.route");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 const allowedOrigins = [
   "https://bolt-clone-inky.vercel.app",
   "http://localhost:3000"
@@ -27,19 +27,6 @@ app.use(
     credentials: true,
   })
 );
-
-// Explicitly handle preflight requests
-app.options("*", cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-}));
-
 app.use(cookieParser());
 const anthropic = new Anthropic();
 
@@ -97,7 +84,7 @@ app.post("/template", async (req, res) => {
     const stream = await anthropic.messages.stream({
       model: "claude-3-5-haiku-20241022",
       max_tokens: 7000,
-      temperature: 0.09,
+      temperature: 0.1,
       system: getSystemPrompt(),
       messages: [
         { role: "user", content: prompt },
@@ -116,6 +103,7 @@ app.post("/template", async (req, res) => {
       try {
         const parsed = JSON.parse(fullResponse);
         res.json(parsed);
+        console.log(fullResponse);
       } catch (e) {
         console.log(
           "Could not parse JSON (maybe token limit hit). Sending raw response."
