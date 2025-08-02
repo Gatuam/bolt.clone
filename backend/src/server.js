@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Whitelist allowed frontend origins
 const allowedOrigins = [
-  "https://bolt-clone-ochre.vercel.app",
+  "https://bolt-clone-inky.vercel.app/",
   "http://localhost:3000"
 ];
 
