@@ -24,14 +24,15 @@ const Aurora = () => {
   });
   return (
     <motion.div
-      className="w-full h-screen flex flex-col justify-between items-center bg-gradient-to-b from-[#000000] to-[#151515] text-white relative py-30"
+      className="w-full min-h-screen overflow-hidden flex flex-col justify-center items-center bg-gradient-to-b from-[#000000] to-[#151515] text-white relative py-30"
       style={{
         backgroundImage,
       }}
     >
+      <div className=" w-full flex flex-col gap-10 items-center max-w-7xl mx-auto p-10 justify-evenly">
       <Nav />
       <div
-        className=" border px-5 py-1 border-[#326bfb4d] bg-[#2f5ce413] rounded-4xl w-70 h-8 flex justify-center items-center mb-5  
+        className=" border px-5 py-1 border-[#326bfb4d] bg-[#2f5ce413] rounded-4xl h-8 flex justify-center items-center mb-5  
         shadow-[inset_0px_1px_4px_0px_rgba(255,255,255,0.1),inset_0px_-1px_4px_0px_rgba(255,255,255,0.1)]"
       >
         <h1 className="text-[#ffffff7b] text-sm ">
@@ -45,7 +46,9 @@ const Aurora = () => {
         <p className="text-sm  text-neutral-500 mb-5 ">
           Create stunning apps & websites by chatting with AI.
         </p>
-        <InputBox size="medium" />
+        
+         <InputBox size="medium" />
+        
       </div>
 
       <div className=" flex gap-5">
@@ -57,6 +60,7 @@ const Aurora = () => {
             <img src={item.svg} alt="" />
           </div>
         ))}
+      </div>
       </div>
     </motion.div>
   );

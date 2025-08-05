@@ -10,7 +10,7 @@ const InputBox = ({ size = "medium" }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuthStore();
-  const { open, setOpen } = useContext(DialogOpenContext);
+  const { setOpen } = useContext(DialogOpenContext);
   const { setMessage } = useContext(MessagesContext);
   const { input, setInput } = useContext(PromptContext);
 
@@ -32,8 +32,8 @@ const InputBox = ({ size = "medium" }) => {
   };
 
   const containerWidth = {
-    small: "w-[25%]",
-    medium: "w-full",
+    small: "w-[23vw]",
+    medium: "w-[85%]",
     large: "w-[100%]",
   };
 
