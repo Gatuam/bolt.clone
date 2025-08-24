@@ -117,7 +117,9 @@ const Codepreview = () => {
             }}
           >
             <SandpackLayout>
-              <SandpackFileExplorer style={{ height: "90vh" }} />
+              <SandpackFileExplorer
+              className=" hidden lg:block"
+              style={{ height: "90vh" }} />
               {activeTab === "code" && (
                 <SandpackCodeEditor
                   style={{
