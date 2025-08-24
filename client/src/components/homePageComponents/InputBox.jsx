@@ -10,7 +10,7 @@ const InputBox = ({ size = "medium" }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuthStore();
-  const { setOpen } = useContext(DialogOpenContext);
+  const { open, setOpen } = useContext(DialogOpenContext);
   const { setMessage } = useContext(MessagesContext);
   const { input, setInput } = useContext(PromptContext);
 
@@ -31,16 +31,10 @@ const InputBox = ({ size = "medium" }) => {
     handleNavigate();
   };
 
-  const containerWidth = {
-    small: "w-[23vw]",
-    medium: "w-[85%]",
-    large: "w-[100%]",
-  };
-
   return (
-    <div className="flex flex-col justify-center items-center w-110">
+    <div className="flex flex-col justify-center items-center w-full ">
       <div
-        className={`flex flex-col ${containerWidth[size]} h-33 rounded-md text-neutral-500 bg-[#11111128] text-sm border border-[#24f9f941] outline-0 p-3 font-medium justify-between relative`}
+        className={`flex flex-col w-full h-33 rounded-md text-neutral-500 bg-[#11111128] text-sm border border-[#24f9f941] outline-0 p-3 font-medium justify-between relative`}
       >
         <textarea
           onChange={(e) => setInput(e.target.value)}

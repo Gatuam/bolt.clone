@@ -10,12 +10,12 @@ const EditorPage = () => {
         backgroundSize: "8px 8px",
         backgroundRepeat: "repeat",
       }}
-      className="text-white text-4xl bg-[#090909] flex flex-col md:flex-row p-3 gap-4 min-h-[196%] md:min-h-screen overflow-hidden"
+      className="w-full h-screen text-white text-4xl justify-between items-center bg-[#090909] flex py-1 "
     >
-      <div className="min-h-[350px] ">
-        <ChatView />
+      <div className="max-w-lg mx-auto px-1">
+        <ChatView></ChatView>
       </div>
-      <div className="w-full flex-1">
+      <div className="flex-1">
         <Codepreview />
       </div>
     </div>

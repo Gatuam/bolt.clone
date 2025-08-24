@@ -63,7 +63,7 @@ const Codepreview = () => {
 
   return (
     <>
-      <div className="ml-2 px-2 bg-[#111] h-[98vh] border border-[#1dd9ff22] p-3 rounded-lg relative ">
+      <div className="ml-2 px-2 bg-[#111] h-[98vh] border border-[#1dd9ff22] p-3 rounded-lg relative">
         {/* Tab Switcher */}
         <div className="w-full h-10 flex gap-2 mb-2">
           <div className="bg-[#111] border border-[#19ffd927] p-1 rounded-full text-[16px] flex justify-center items-center gap-1">
