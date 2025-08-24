@@ -32,7 +32,7 @@ const InputBox = ({ size = "medium" }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full ">
+    <div className="flex flex-col justify-center items-center w-[90%] md:w-full ">
       <div
         className={`flex flex-col w-full h-33 rounded-md text-neutral-500 bg-[#11111128] text-sm border border-[#24f9f941] outline-0 p-3 font-medium justify-between relative`}
       >
@@ -93,7 +93,7 @@ const InputBox = ({ size = "medium" }) => {
 
       {/* Suggested ideas on home page */}
       {location.pathname === "/" && (
-        <div className="flex w-150 flex-wrap justify-center items-center mt-4">
+        <div className="flex max-w-2xl flex-wrap justify-center items-center mt-4">
           {appIdeas.map((item, id) => (
             <div
               key={id}

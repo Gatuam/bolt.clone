@@ -24,43 +24,41 @@ const Aurora = () => {
   });
   return (
     <motion.div
-      className="w-full min-h-screen overflow-hidden flex flex-col justify-center items-center bg-gradient-to-b from-[#000000] to-[#151515] text-white relative py-30"
+      className="w-full h-screen flex flex-col justify-center items-center bg-gradient-to-b from-[#000000] to-[#151515] text-white relative py-30"
       style={{
         backgroundImage,
       }}
     >
-      <div className=" w-full flex flex-col gap-10 items-center max-w-7xl mx-auto p-10 justify-evenly">
-      <Nav />
-      <div
-        className=" border px-5 py-1 border-[#326bfb4d] bg-[#2f5ce413] rounded-4xl h-8 flex justify-center items-center mb-5  
+      <div className=" flex flex-col justify-between items-center gap-8  max-w-3xl mx-auto px-2">
+        <Nav />
+        <div
+          className=" border px-5 py-1 border-[#326bfb4d] bg-[#2f5ce413] rounded-4xl w-70 h-8 flex justify-center items-center mb-5  
         shadow-[inset_0px_1px_4px_0px_rgba(255,255,255,0.1),inset_0px_-1px_4px_0px_rgba(255,255,255,0.1)]"
-      >
-        <h1 className="text-[#ffffff7b] text-sm ">
-          Best Ai App for React and Nodejs
-        </h1>
-      </div>
-      <div className="text-center mb-8">
-        <h1 className="text-neutral-200 font-bold text-4xl mb-4">
-          What do you want to build?
-        </h1>
-        <p className="text-sm  text-neutral-500 mb-5 ">
-          Create stunning apps & websites by chatting with AI.
-        </p>
-        
-         <InputBox size="medium" />
-        
-      </div>
+        >
+          <h1 className="text-[#ffffff7b] text-sm ">
+            Best Ai App for React and Nodejs
+          </h1>
+        </div>
+        <div className="text-center mb-8 flex flex-col justify-center items-center">
+          <h1 className="text-neutral-200 font-bold text-2xl mb-4 md:text-2xl">
+            What do you want to build?
+          </h1>
+          <p className=" text-neutral-500 mb-5 text-center  ">
+            Create stunning apps & websites by chatting with AI.
+          </p>
+          <InputBox />
+        </div>
 
-      <div className=" flex gap-5">
-        {svgs.map((item) => (
-          <div
-            key={item.id}
-            className="border px-3 py-1 border-[#326bfb4d] bg-[#2f5ce413] rounded-4xl flex justify-center items-center cursor-pointer hover:bg-[#7dd4ff1e] w-12 h-12"
-          >
-            <img src={item.svg} alt="" />
-          </div>
-        ))}
-      </div>
+        <div className=" flex gap-5">
+          {svgs.map((item) => (
+            <div
+              key={item.id}
+              className="border px-3 py-1 border-[#326bfb4d] bg-[#2f5ce413] rounded-4xl flex justify-center items-center cursor-pointer hover:bg-[#7dd4ff1e] w-12 h-12"
+            >
+              <img src={item.svg} alt="" />
+            </div>
+          ))}
+        </div>
       </div>
     </motion.div>
   );
